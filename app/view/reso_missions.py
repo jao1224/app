@@ -77,3 +77,12 @@ class Mission_update(Resource):
             return ("Missão foi adicionada com sucesso")
         except Exception as e:
             return jsonify({'status': 500, 'msg':f'{e}'}),500
+        
+        
+    class MissionDelete(Resource):
+        def delete(self, id):
+            try:
+                Missions.delete_mission(id)
+                return ("Missão foi deletada com sucesso")
+            except Exception as e:
+                return jsonify({'status': 500, 'msg':f'{e}'}),500
