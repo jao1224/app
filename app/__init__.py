@@ -4,7 +4,7 @@ from flask_restful import Api
 
 app= Flask(__name__)
 api=Api(app)
-app.config["SQLALCHEMY_DATABASE_URI"] = 'sqlite:///missoes.db'
+app.config["SQLALCHEMY_DATABASE_URI"] = 'sqlite:///Missions.db'
 db= SQLAlchemy(app)
 from app.models.missoes import Missions
 with app.app_context():

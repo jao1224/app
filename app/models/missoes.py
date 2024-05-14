@@ -27,7 +27,7 @@ class Missions(db.Model):
         self.custo = custo
         self.status = status
 
-    def save_products(self, id, nome, data_lancamento, destino, estado, tripulacao, carga_util, duracao, custo, status):
+    def save_missions(self, id, nome, data_lancamento, destino, estado, tripulacao, carga_util, duracao, custo, status):
         try:
             add_banco = Missions(id, nome, data_lancamento, destino, estado, tripulacao, carga_util, duracao, custo, status)
             print(add_banco)
