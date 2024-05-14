@@ -12,9 +12,9 @@ with app.app_context():
 from app.view.reso_missions import Index
 api.add_resource(Index,"/")
 from app.view.reso_missions import Mission_Create, Mission_update,Mission_Delete
-api.add_resource(Mission_Create,"/create")
-api.add_resource(Mission_update,"/Update")
-api.add_resource(Mission_Delete,"/delete")
+api.add_resource(Mission_Create,'/Create')
+api.add_resource(Mission_update,'/Update')
+api.add_resource(Mission_Delete,'/Delete')
 
 #@app.route("/")
 #def index():
