@@ -3,7 +3,7 @@ from flask import jsonify
 from flask_restful import Resource, reqparse
 
 
-
+# Adicionar
 argumentos = reqparse.RequestParser()
 argumentos.add_argument('nome', type=str)
 argumentos.add_argument('data_lancamento', type=str)  
@@ -15,8 +15,7 @@ argumentos.add_argument('duracao', type=str)
 argumentos.add_argument('custo', type=float)
 argumentos.add_argument('status', type=str)
 
-
- #update       
+# Update       
 argumentos_update = reqparse.RequestParser()
 argumentos_update.add_argument('nome', type=str)
 argumentos_update.add_argument('data_lancamento', type=str)  
@@ -27,17 +26,22 @@ argumentos_update.add_argument('carga_util', type=str)
 argumentos_update.add_argument('duracao', type=str)  
 argumentos_update.add_argument('custo', type=float)
 argumentos_update.add_argument('status', type=str)
+
+# Deletar
+argumentos_delete=reqparse.RequestParser()
+argumentos_delete.add_argument('id', type=int)
+
 class Index(Resource):
     def get(self):
         return jsonify("Bem-vindo à aplicação Flask")
 
 # Criar (POST)
-class MissionCreate(Resource):
+class Mission_Create(Resource):
     def post(self):
         try:
             datas = argumentos.parse_args()
-            print(datas)
             missao = Missions(
+                datas['id'],
                 nome=datas['nome'],
                 data_lancamento=datas['data_lancamento'],
                 destino=datas['destino'],
@@ -49,20 +53,17 @@ class MissionCreate(Resource):
                 status=datas['status']
             )
             missao.save_mission()
-            return ("Missão foi adicionada com sucesso")
+            return {"message": "Missão foi adicionada com sucesso"}
         except Exception as e:
             return jsonify({'status': 500, 'msg':f'{e}'}),500
-        
-        
 
-
-#update
+# Update
 class Mission_update(Resource):
-    def post(self):
+    def put(self):
         try:
             datas = argumentos_update.parse_args()
-            print(datas)
-            missao = Missions(
+            Missions.update_mission(
+                datas['id'],
                 nome=datas['nome'],
                 data_lancamento=datas['data_lancamento'],
                 destino=datas['destino'],
@@ -73,16 +74,16 @@ class Mission_update(Resource):
                 custo=datas['custo'],
                 status=datas['status']
             )
-            missao.save_mission()
-            return ("Missão foi adicionada com sucesso")
+            return ("Missão foi atualizada com sucesso")
         except Exception as e:
             return jsonify({'status': 500, 'msg':f'{e}'}),500
-        
-        
-    class MissionDelete(Resource):
-        def delete(self, id):
-            try:
-                Missions.delete_mission(id)
-                return ("Missão foi deletada com sucesso")
-            except Exception as e:
-                return jsonify({'status': 500, 'msg':f'{e}'}),500
+
+# Deletar
+class Mission_Delete(Resource):
+    def delete(self):
+        try:
+            datas = argumentos_delete.parse_args()
+            Missions.delete_mission(datas['id'])
+            return ("Missão foi deletada com sucesso")
+        except Exception as e:
+            return jsonify({'status': 500, 'msg':f'{e}'}),500
