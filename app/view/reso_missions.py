@@ -43,7 +43,8 @@ class Mission_Create(Resource):
         try:
             datas = argumentos.parse_args()
             data_lancamento = datetime.strptime(datas['data_lancamento'], '%Y-%m-%d %H:%M:%S')
-            Missions.save_missions(self,
+            Missions.save_missions(
+                self,
                 nome=datas['nome'],
                 data_lancamento=data_lancamento,
                 destino=datas['destino'],
@@ -54,7 +55,6 @@ class Mission_Create(Resource):
                 custo=datas['custo'],
                 status=datas['status']
             )
-            Missions.save_missions()
             return {"message": "Missão foi adicionada com sucesso"},200
         except Exception as e:
             return jsonify({"error":str(e)})
