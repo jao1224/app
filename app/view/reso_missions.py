@@ -43,7 +43,7 @@ class Mission_Create(Resource):
         try:
             datas = argumentos.parse_args()
             data_lancamento = datetime.strptime(datas['data_lancamento'], '%Y-%m-%d %H:%M:%S')
-            Missions.save_missions(
+            Missions.save_missions(self,
                 nome=datas['nome'],
                 data_lancamento=data_lancamento,
                 destino=datas['destino'],

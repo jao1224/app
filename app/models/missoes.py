@@ -27,9 +27,9 @@ class Missions(db.Model):
         self.custo = custo
         self.status = status
 
-    def save_missions(self):
+    def save_missions(self, nome, data_lancamento, destino, estado, tripulacao, carga_util, duracao, custo, status):
         try:
-            add_banco = Missions(self)
+            add_banco = Missions(self,nome, data_lancamento, destino, estado, tripulacao, carga_util, duracao, custo, status)
             print(add_banco)
             db.session.add(add_banco) #adicionar a instância
             db.session.commit() #confirma
