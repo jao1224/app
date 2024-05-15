@@ -4,7 +4,7 @@ class Missions(db.Model):
     __tablename__ = 'mission'
     __table_args__ = {'sqlite_autoincrement': True} 
     id = db.Column(db.Integer, primary_key=True)
-    nome = db.Column(db.String(80))
+    nome = db.Column(db.String(120))
     data_lancamento = db.Column(db.DateTime)
     destino = db.Column(db.String(120))
     estado = db.Column(db.String(120))
