@@ -41,21 +41,20 @@ class Mission_Create(Resource):
         try:
             datas = argumentos.parse_args()
             missao = Missions(
-                datas['id'],
-                datas['nome'],
-                datas['data_lancamento'],
-                datas['destino'],
-                datas['estado'],
-                datas['tripulacao'],
-                datas['carga_util'],
-                datas['duracao'],
-                datas['custo'],
-                datas['status']
+                nome=datas['nome'],
+                data_lancamento=datas['data_lancamento'],
+                destino=datas['destino'],
+                estado=datas['estado'],
+                tripulacao=datas['tripulacao'],
+                carga_util=datas['carga_util'],
+                duracao=datas['duracao'],
+                custo=datas['custo'],
+                status=datas['status']
             )
             missao.save_missions()
             return {"message": "Missão foi adicionada com sucesso"}
         except Exception as e:
-            return jsonify({'status': 500, 'msg':f'{e}'}),500
+            return jsonify({"error":str(e)})
 
 # Update
 class Mission_update(Resource):

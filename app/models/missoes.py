@@ -15,8 +15,7 @@ class Missions(db.Model):
     status = db.Column(db.Text)
 
 
-    def __init__(self, id, nome, data_lancamento, destino, estado, tripulacao, carga_util, duracao, custo, status):
-        self.id = id
+    def __init__(self, nome, data_lancamento, destino, estado, tripulacao, carga_util, duracao, custo, status):
         self.nome = nome
         self.data_lancamento = data_lancamento
         self.destino = destino
@@ -27,9 +26,9 @@ class Missions(db.Model):
         self.custo = custo
         self.status = status
 
-    def save_missions(self, id, nome, data_lancamento, destino, estado, tripulacao, carga_util, duracao, custo, status):
+    def save_missions(self, nome, data_lancamento, destino, estado, tripulacao, carga_util, duracao, custo, status):
         try:
-            add_banco = Missions(id, nome, data_lancamento, destino, estado, tripulacao, carga_util, duracao, custo, status)
+            add_banco = Missions(nome, data_lancamento, destino, estado, tripulacao, carga_util, duracao, custo, status)
             print(add_banco)
             db.session.add(add_banco) #adicionar a instância
             db.session.commit() #confirma
@@ -59,3 +58,5 @@ class Missions(db.Model):
             db.session.commit() #confirmar e salvar as alterações no banco de dados
         except Exception as e:
             print(e)
+            
+    
