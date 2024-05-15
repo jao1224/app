@@ -1,6 +1,7 @@
 from app.models.missoes import Missions
 from flask import jsonify
 from flask_restful import Resource, reqparse
+from datetime import datetime
 
 
 
@@ -41,18 +42,20 @@ class Mission_Create(Resource):
     def post(self):
         try:
             datas = argumentos.parse_args()
-            Missions.save_missions( self,
-                datas['nome'],
-                datas['data_lancamento'],
-                datas['destino'],
-                datas['estado'],
-                datas['tripulacao'],
-                datas['carga_util'],
-                datas['duracao'],
-                datas['custo'],
-                datas['status']
+            data_lancamento = datetime.strptime(datas['data_lancamento'], '%Y-%m-%d %H:%M:%S')
+            Missions.save_missions(
+                nome=datas['nome'],
+                data_lancamento=data_lancamento,
+                destino=datas['destino'],
+                estado=datas['estado'],
+                tripulacao=datas['tripulacao'],
+                carga_util=datas['carga_util'],
+                duracao=datas['duracao'],
+                custo=datas['custo'],
+                status=datas['status']
             )
-            return {"message": "Missão foi adicionada com sucesso"}
+            Missions.save_missions()
+            return {"message": "Missão foi adicionada com sucesso"},200
         except Exception as e:
             return jsonify({"error":str(e)})
 

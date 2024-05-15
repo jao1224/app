@@ -27,9 +27,9 @@ class Missions(db.Model):
         self.custo = custo
         self.status = status
 
-    def save_missions(self, nome, data_lancamento, destino, estado, tripulacao, carga_util, duracao, custo, status):
+    def save_missions(self):
         try:
-            add_banco = Missions(nome, data_lancamento, destino, estado, tripulacao, carga_util, duracao, custo, status)
+            add_banco = Missions(self)
             print(add_banco)
             db.session.add(add_banco) #adicionar a instância
             db.session.commit() #confirma
@@ -39,6 +39,7 @@ class Missions(db.Model):
     def update_mission(self, id, nome, data_lancamento, destino, estado, tripulacao, carga_util, duracao, custo, status):
         try:
             db.session.query(Missions).filter(Missions.id==id).update({
+                "id":id,
                 "nome": nome,
                 "data_lancamento": data_lancamento,
                 "destino": destino,

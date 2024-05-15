@@ -14,6 +14,9 @@ api.add_resource(Index,"/")
 api.add_resource(Mission_Create,'/Create')
 api.add_resource(Mission_update,'/Update')
 api.add_resource(Mission_Delete,'/Delete')
+if __name__ == '__main__':
+    db.create_all()  # Cria as tabelas
+    app.run(debug=True)
 #@app.route("/")
 #def index():
 #    return render_template('/index.html')'''
