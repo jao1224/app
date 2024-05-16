@@ -1,7 +1,7 @@
 from app.models.missoes import Missions
 from flask import jsonify
 from flask_restful import Resource, reqparse
-from datetime import datetime
+from datetime import datetime,timedelta
 
 
 
@@ -43,6 +43,12 @@ class Mission_Create(Resource):
         try:
             datas = argumentos.parse_args()
             data_lancamento = datetime.strptime(datas['data_lancamento'], '%Y-%m-%d %H:%M:%S')
+        
+
+            duracao = datas['duracao'].split() 
+            dia = int(duracao[0])
+            duracao = timedelta(days=dia)
+           
             Missions.save_missions(
                 self,
                 nome=datas['nome'],
@@ -51,7 +57,7 @@ class Mission_Create(Resource):
                 estado=datas['estado'],
                 tripulacao=datas['tripulacao'],
                 carga_util=datas['carga_util'],
-                duracao=datas['duracao'],
+                duracao=duracao,
                 custo=datas['custo'],
                 status=datas['status']
             )
@@ -78,14 +84,14 @@ class Mission_update(Resource):
             )
             return ("Missão foi atualizada com sucesso")
         except Exception as e:
-            return jsonify({'status': 500, 'msg':f'{e}'}),500
+            return jsonify({"error":str(e)})
 
 # Deletar
 class Mission_Delete(Resource):
     def delete(self):
         try:
             datas = argumentos_delete.parse_args()
-            Missions.delete_mission(datas['id'])
+            Missions.delete_mission(self,datas['id'])
             return ("Missão foi deletada com sucesso")
         except Exception as e:
-            return jsonify({'status': 500, 'msg':f'{e}'}),500
+            return jsonify({"error":str(e)})
