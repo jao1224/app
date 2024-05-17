@@ -16,6 +16,7 @@ class Missions(db.Model):
 
 
 
+
     def __init__(self, nome, data_lancamento, destino, estado, tripulacao, carga_util, duracao, custo, status):
         self.nome = nome
         self.data_lancamento = data_lancamento

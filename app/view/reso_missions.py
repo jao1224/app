@@ -65,6 +65,7 @@ class Mission_Create(Resource):
         except Exception as e:
             return jsonify({"error":str(e)})
 
+
 # Update
 class Mission_update(Resource):
     def put(self):
