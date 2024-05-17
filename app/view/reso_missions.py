@@ -19,6 +19,7 @@ argumentos.add_argument('status', type=str)
 
 # Update       
 argumentos_update = reqparse.RequestParser()
+argumentos_update.add_argument('id', type=int)
 argumentos_update.add_argument('nome', type=str)
 argumentos_update.add_argument('data_lancamento', type=str)  
 argumentos_update.add_argument('destino', type=str)
@@ -69,16 +70,25 @@ class Mission_Create(Resource):
 class Mission_update(Resource):
     def put(self):
         try:
+            
             datas = argumentos_update.parse_args()
+            data_lancamento = datetime.strptime(datas['data_lancamento'], '%Y-%m-%d %H:%M:%S')
+        
+
+            duracao = datas['duracao'].split() 
+            dia = int(duracao[0])
+            duracao = timedelta(days=dia)
+            
             Missions.update_mission(
-                datas['id'],
+                self,
+                id=datas['id'],
                 nome=datas['nome'],
-                data_lancamento=datas['data_lancamento'],
+                data_lancamento=data_lancamento,
                 destino=datas['destino'],
                 estado=datas['estado'],
                 tripulacao=datas['tripulacao'],
                 carga_util=datas['carga_util'],
-                duracao=datas['duracao'],
+                duracao=duracao,
                 custo=datas['custo'],
                 status=datas['status']
             )
