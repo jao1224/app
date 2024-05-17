@@ -45,10 +45,9 @@ class Mission_Create(Resource):
             datas = argumentos.parse_args()
             data_lancamento = datetime.strptime(datas['data_lancamento'], '%Y-%m-%d %H:%M:%S')
         
+            duracao = datetime.strptime(datas['data_lancamento'], '%Y-%m-%d %H:%M:%S')
+        
 
-            duracao = datas['duracao'].split() 
-            dia = int(duracao[0])
-            duracao = timedelta(days=dia)
            
             Missions.save_missions(
                 self,
