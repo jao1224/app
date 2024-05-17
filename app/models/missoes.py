@@ -10,7 +10,7 @@ class Missions(db.Model):
     estado = db.Column(db.String(120))
     tripulacao = db.Column(db.String(120))
     carga_util = db.Column(db.String(120))
-    duracao = db.Column(db.Interval)
+    duracao = db.Column(db.DateTime)
     custo = db.Column(db.Float)
     status = db.Column(db.Text)
 

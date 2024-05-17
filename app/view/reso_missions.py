@@ -74,10 +74,8 @@ class Mission_update(Resource):
             datas = argumentos_update.parse_args()
             data_lancamento = datetime.strptime(datas['data_lancamento'], '%Y-%m-%d %H:%M:%S')
         
-
-            duracao = datas['duracao'].split() 
-            dia = int(duracao[0])
-            duracao = timedelta(days=dia)
+            duracao = datetime.strptime(datas['data_lancamento'], '%Y-%m-%d %H:%M:%S')
+        
             
             Missions.update_mission(
                 self,
