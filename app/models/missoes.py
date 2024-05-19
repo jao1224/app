@@ -1,3 +1,4 @@
+from sqlalchemy import and_
 from app import db
 
 class Missions(db.Model):
@@ -62,4 +63,15 @@ class Missions(db.Model):
         except Exception as e:
             print(e)
             
-    
+        #pesquisa missao por id     
+    def get_mission_by_id(self, id):
+        try:
+            db.session.query(Missions).filter(Missions.id==id).first()
+            db.session.commit() #confirmar e salvar as alterações no banco de dados
+        except Exception as e:
+            print(e)
+            
+            
+        #pesquisa por data da missao
+    def get_missions_by_date_range(self, start_date, end_date):
+        return Missions.query.filter(and_(Missions.data_lancamento >= start_date, Missions.data_lancamento <= end_date)).all()

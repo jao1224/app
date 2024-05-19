@@ -1,5 +1,5 @@
 from app.models.missoes import Missions
-from flask import jsonify
+from flask import jsonify, request
 from flask_restful import Resource, reqparse
 from datetime import datetime,timedelta
 
@@ -103,3 +103,29 @@ class Mission_Delete(Resource):
             return ("Missão foi deletada com sucesso")
         except Exception as e:
             return jsonify({"error":str(e)})
+        
+        
+    # Recuperar os detalhes de uma missão específica com base no ID da missão
+class Mission_por_id(Resource):
+    def get(self):
+        try:
+            datas = argumentos_delete.parse_args()
+            Missions.delete_mission(self,datas['id'])
+            return ("Missão foi encontrada com sucesso")
+        except Exception as e:
+            return jsonify({"error":str(e)})
+        
+        
+# Pesquisar missões por intervalo de datas
+class Missions_Por_intervalo(Resource):
+    def get(self):
+        start_date_str = request.args.get('start_date')
+        end_date_str = request.args.get('end_date')
+
+        try:
+            start_date = datetime.strptime(start_date_str, '%Y-%m-%d %H:%M:%S')
+            end_date = datetime.strptime(end_date_str, '%Y-%m-%d %H:%M:%S')
+        except ValueError:
+            return jsonify({'message': 'Formato de data inválido. Use o formato YYYY-MM-DD HH:MM:SS'}), 400
+
+        Missions.get_missions_by_date_range(start_date, end_date)
