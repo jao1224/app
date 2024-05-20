@@ -34,6 +34,11 @@ argumentos_update.add_argument('status', type=str)
 argumentos_delete=reqparse.RequestParser()
 argumentos_delete.add_argument('id', type=int)
 
+#pesquisar
+# Deletar
+argumentos_pesquisa=reqparse.RequestParser()
+argumentos_pesquisa.add_argument('id', type=int)
+
 class Index(Resource):
     def get(self):
         return jsonify("Bem-vindo à aplicação Flask")
@@ -99,7 +104,7 @@ class Mission_Delete(Resource):
     def delete(self):
         try:
             datas = argumentos_delete.parse_args()
-            Missions.delete_mission(self,datas['id'])
+            Missions.get_mission_by_id(self,datas['id'])
             return ("Missão foi deletada com sucesso")
         except Exception as e:
             return jsonify({"error":str(e)})
