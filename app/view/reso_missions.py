@@ -104,7 +104,7 @@ class Mission_Delete(Resource):
     def delete(self):
         try:
             datas = argumentos_delete.parse_args()
-            Missions.get_mission_by_id(self,datas['id'])
+            Missions.delete_mission(self,datas['id'])
             return ("Missão foi deletada com sucesso")
         except Exception as e:
             return jsonify({"error":str(e)})
@@ -115,7 +115,7 @@ class Mission_por_id(Resource):
     def get(self):
         try:
             datas = argumentos_delete.parse_args()
-            Missions.delete_mission(self,datas['id'])
+            Missions.get_mission_by_id(self,datas['id'])
             return ("Missão foi encontrada com sucesso")
         except Exception as e:
             return jsonify({"error":str(e)})
