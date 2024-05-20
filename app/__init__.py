@@ -16,9 +16,7 @@ api.add_resource(Mission_update,'/Update')
 api.add_resource(Mission_Delete,'/Delete')
 api.add_resource(Mission_por_id,'/id')
 api.add_resource(Missions_Por_intervalo,'/intervalo')
-if __name__ == '__main__':
-    db.create_all()  # Cria as tabelas
-    app.run(debug=True)
+
 #@app.route("/")
 #def index():
 #    return render_template('/index.html')'''
