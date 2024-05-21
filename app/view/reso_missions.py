@@ -35,7 +35,6 @@ argumentos_delete=reqparse.RequestParser()
 argumentos_delete.add_argument('id', type=int)
 
 #pesquisar
-# Deletar
 argumentos_pesquisa=reqparse.RequestParser()
 argumentos_pesquisa.add_argument('id', type=int)
 
@@ -114,11 +113,14 @@ class Mission_Delete(Resource):
 class Mission_por_id(Resource):
     def get(self):
         try:
-            datas = argumentos_delete.parse_args()
-            Missions.get_mission_by_id(self,datas['id'])
-            return ("Missão foi encontrada com sucesso")
+            datas = argumentos_pesquisa.parse_args()
+            missao=Missions.get_mission_by_id(self,datas['id'])
+            if missao:
+                return missao
+            return{"message": 'Missão encontrada  sucessfully!'},200
         except Exception as e:
-            return jsonify({"error":str(e)})
+            return jsonify({'status': 500, 'msg':f'{e}'}),500
+            
         
         
 # Pesquisar missões por intervalo de datas

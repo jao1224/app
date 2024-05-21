@@ -64,14 +64,15 @@ class Missions(db.Model):
             print(e)
             
         #pesquisa missao por id     
-    def get_mission_by_id(self, id):
+    def get_mission_by_id(self, mission_id):
         try:
-            db.session.query(Missions).filter(Missions.id==id).first()
-            db.session.commit() #confirmar e salvar as alterações no banco de dados
-        except Exception as e:
+            mission = db.session.query(Missions).filter(Missions.id == mission_id).all()
+            mission_dict = [{'id': missions.id, 'nome': missions.nome, 'status': missions.status, "destino":missions.destino,"estado": missions.estado,"tripulacao": missions.tripulacao,} for missions in mission]
+            return mission_dict
+        except Exception as e: #se a operação de salvar falhas, cai na exceção
             print(e)
             
             
-        #pesquisa por data da missao
+      #pesquisa por data da missao
     def get_missions_by_date_range(self, start_date, end_date):
         return Missions.query.filter(and_(Missions.data_lancamento >= start_date, Missions.data_lancamento <= end_date)).all()
