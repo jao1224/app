@@ -1,4 +1,4 @@
-from sqlalchemy import and_
+from datetime import datetime
 from app import db
 
 class Missions(db.Model):
@@ -67,12 +67,20 @@ class Missions(db.Model):
     def get_mission_by_id(self, mission_id):
         try:
             mission = db.session.query(Missions).filter(Missions.id == mission_id).all()
-            mission_dict = [{'id': missions.id, 'nome': missions.nome, 'status': missions.status, "destino":missions.destino,"estado": missions.estado,"tripulacao": missions.tripulacao,} for missions in mission]
+            mission_dict = [{'id': missions.id, 'nome': missions.nome, 'status': missions.status, "destino":missions.destino,"estado": missions.estado,"tripulacao": missions.tripulacao,"data_lancamento": missions.data_lancamento.strftime('%Y-%m-%d %H:%M:%S'),} for missions in mission]
             return mission_dict
         except Exception as e: #se a operação de salvar falhas, cai na exceção
             print(e)
             
-            
-      #pesquisa por data da missao
-    def get_missions_by_date_range(self, start_date, end_date):
-        return Missions.query.filter(and_(Missions.data_lancamento >= start_date, Missions.data_lancamento <= end_date)).all()
+
+#pesquisa por data da missao
+    def get_missions_by_date_range(self, mission_data):
+        try:
+            # Converte a string de data em um objeto datetime
+            mission_data = datetime.strptime(mission_data, '%Y-%m-%d %H:%M:%S')
+
+            mission = db.session.query(Missions).filter(Missions.data_lancamento == mission_data).all()
+            mission_dict = [{'data_lancamento': missions.data_lancamento.strftime('%Y-%m-%d %H:%M:%S'), 'nome': missions.nome, 'status': missions.status, "destino":missions.destino,"estado": missions.estado,"tripulacao": missions.tripulacao,} for missions in mission]
+            return mission_dict
+        except Exception as e: #se a operação de salvar falhas, cai na exceção
+            print(e)

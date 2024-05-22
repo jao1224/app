@@ -1,7 +1,7 @@
 from app.models.missoes import Missions
 from flask import jsonify, request
 from flask_restful import Resource, reqparse
-from datetime import datetime,timedelta
+from datetime import datetime
 
 
 
@@ -34,9 +34,12 @@ argumentos_update.add_argument('status', type=str)
 argumentos_delete=reqparse.RequestParser()
 argumentos_delete.add_argument('id', type=int)
 
-#pesquisar
+#pesquisar por id 
 argumentos_pesquisa=reqparse.RequestParser()
 argumentos_pesquisa.add_argument('id', type=int)
+#pesquisa por data 
+argumentos_pesquisadt=reqparse.RequestParser()
+argumentos_pesquisadt.add_argument('data_lancamento', type=str)
 
 class Index(Resource):
     def get(self):
@@ -49,10 +52,8 @@ class Mission_Create(Resource):
             datas = argumentos.parse_args()
             data_lancamento = datetime.strptime(datas['data_lancamento'], '%Y-%m-%d %H:%M:%S')
         
-            duracao = datetime.strptime(datas['data_lancamento'], '%Y-%m-%d %H:%M:%S')
+            duracao = datetime.strptime(datas['duracao'], '%Y-%m-%d %H:%M:%S')
         
-
-           
             Missions.save_missions(
                 self,
                 nome=datas['nome'],
@@ -68,7 +69,6 @@ class Mission_Create(Resource):
             return {"message": "Missão foi adicionada com sucesso"},200
         except Exception as e:
             return jsonify({"error":str(e)})
-
 
 # Update
 class Mission_update(Resource):
@@ -126,13 +126,14 @@ class Mission_por_id(Resource):
 # Pesquisar missões por intervalo de datas
 class Missions_Por_intervalo(Resource):
     def get(self):
-        start_date_str = request.args.get('start_date')
-        end_date_str = request.args.get('end_date')
-
+    
         try:
-            start_date = datetime.strptime(start_date_str, '%Y-%m-%d %H:%M:%S')
-            end_date = datetime.strptime(end_date_str, '%Y-%m-%d %H:%M:%S')
-        except ValueError:
-            return jsonify({'message': 'Formato de data inválido. Use o formato YYYY-MM-DD HH:MM:SS'}), 400
-
-        Missions.get_missions_by_date_range(start_date, end_date)
+            datas = argumentos_pesquisadt.parse_args()
+            data_lancamento = datetime.strptime(datas['data_lancamento'], '%Y-%m-%d %H:%M:%S')
+            missao=Missions.get_mission_by_id(self,data_lancamento)
+            if missao:
+                return missao
+            return{"message": 'Missão encontrada  sucessfully!'},200
+        except Exception as e:
+            return jsonify({'status': 500, 'msg':f'{e}'}),500
+       
