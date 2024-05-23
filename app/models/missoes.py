@@ -104,13 +104,14 @@ class Missions(db.Model):
     def all_misson(self,data_ordenada):
         try:
             # Recupera todas as missões do banco de dados
-            missoes = db.session.query(Missions).order_by(desc(Missions.data_lancamento==data_ordenada)).all()
+            mission = db.session.query(Missions).order_by(desc(Missions.data_lancamento==data_ordenada)).all()
 
             # Cria uma lista de dicionários com os detalhes de cada missão
-            mission_detail = [{'nome': missao.nome,
-                                 'destino': missao.destino,
-                                 'estado': missao.estado,
-                                 'data_lancamento': missao.data_lancamento} for missao in missoes]
+            mission_detail = [{'nome': missons.nome,
+                                 'estado': missons.estado,
+                                 'data_lancamento': missons.data_lancamento,
+                                 'destino': missons.destino,
+                                 "tripulacao": missons.tripulacao,} for missons in mission]
             
             return mission_detail
         except Exception as e:
