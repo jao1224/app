@@ -129,11 +129,18 @@ class Missions_Por_intervalo(Resource):
     
         try:
             datas = argumentos_pesquisadt.parse_args()
-            data_lancamento = datetime.strptime(datas['data_lancamento'], '%Y-%m-%d %H:%M:%S')
-            missao=Missions.get_mission_by_id(self,data_lancamento)
+            data_inicial = datetime.strptime(datas['data_lancamento'], '%Y-%m-%d %H:%M:%S')
+            data_final = datetime.strptime(datas['data_lancamento'], '%Y-%m-%d %H:%M:%S')
+            missao=Missions.get_missions_by_date_range(self,data_inicial,data_final)
             if missao:
-                return missao
-            return{"message": 'Missão encontrada  sucessfully!'},200
+                # Certifique-se de que 'missao' seja serializável em JSON
+                return jsonify(missao)
+            else:
+                return jsonify({'Message': "Missao nao encontrada"}), 404
         except Exception as e:
-            return jsonify({'status': 500, 'msg':f'{e}'}),500
+            return jsonify({"error": str(e)})
        
+       
+
+
+            

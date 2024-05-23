@@ -1,4 +1,4 @@
-from datetime import datetime
+from sqlalchemy import and_
 from app import db
 
 class Missions(db.Model):
@@ -74,13 +74,20 @@ class Missions(db.Model):
             
 
 #pesquisa por data da missao
-    def get_missions_by_date_range(self, mission_data):
+    def get_missions_by_date_range(self, data_inicial, data_final):
         try:
-            # Converte a string de data em um objeto datetime
-            mission_data = datetime.strptime(mission_data, '%Y-%m-%d %H:%M:%S')
+    
 
-            mission = db.session.query(Missions).filter(Missions.data_lancamento == mission_data).all()
-            mission_dict = [{'data_lancamento': missions.data_lancamento.strftime('%Y-%m-%d %H:%M:%S'), 'nome': missions.nome, 'status': missions.status, "destino":missions.destino,"estado": missions.estado,"tripulacao": missions.tripulacao,} for missions in mission]
-            return mission_dict
-        except Exception as e: #se a operação de salvar falhas, cai na exceção
-            print(e)
+            # Consulta as missões cuja data de lançamento está entre data_inicial e data_final
+            mission = db.session.query(Missions).filter(and_(Missions.data_lancamento >= data_inicial, Missions.data_lancamento <= data_final)).all()
+
+            # Converte os resultados em um dicionário
+            missions_dict = [{
+                'data_lancamento': missions.data_lancamento, 
+                'nome': missions.nome, 'status': missions.status, 
+                "destino":missions.destino,"estado": missions.estado,
+                "tripulacao": missions.tripulacao,} for missions in mission]
+
+            return missions_dict
+        except Exception as e:
+            return {"error": str(e)}
