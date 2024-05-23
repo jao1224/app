@@ -1,4 +1,5 @@
 from sqlalchemy import and_
+from sqlalchemy import desc
 from app import db
 
 class Missions(db.Model):
@@ -86,8 +87,31 @@ class Missions(db.Model):
                 'data_lancamento': missions.data_lancamento, 
                 'nome': missions.nome, 'status': missions.status, 
                 "destino":missions.destino,"estado": missions.estado,
-                "tripulacao": missions.tripulacao,} for missions in mission]
+                "tripulacao": missions.tripulacao,
+                } for missions in mission]
 
             return missions_dict
+        except Exception as e:
+            return {"error": str(e)}
+        
+        
+        
+        
+
+
+
+
+    def all_misson(self,data_ordenada):
+        try:
+            # Recupera todas as missões do banco de dados
+            missoes = db.session.query(Missions).order_by(desc(Missions.data_lancamento==data_ordenada)).all()
+
+            # Cria uma lista de dicionários com os detalhes de cada missão
+            mission_detail = [{'nome': missao.nome,
+                                 'destino': missao.destino,
+                                 'estado': missao.estado,
+                                 'data_lancamento': missao.data_lancamento} for missao in missoes]
+            
+            return mission_detail
         except Exception as e:
             return {"error": str(e)}

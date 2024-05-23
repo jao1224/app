@@ -40,6 +40,10 @@ argumentos_pesquisa.add_argument('id', type=int)
 #pesquisa por data 
 argumentos_pesquisadt=reqparse.RequestParser()
 argumentos_pesquisadt.add_argument('data_lancamento', type=str)
+#pesquisa por data mas por ordem decrescente
+argumentos_pesquisa_orden=reqparse.RequestParser()
+argumentos_pesquisa_orden.add_argument('data_lancamento', type=str)
+
 
 class Index(Resource):
     def get(self):
@@ -139,8 +143,27 @@ class Missions_Por_intervalo(Resource):
                 return jsonify({'Message': "Missao nao encontrada"}), 404
         except Exception as e:
             return jsonify({"error": str(e)})
+        
+        
+#todas as missoes em ordem decrescente 
+class Missions_Por_ordem_decrescente(Resource):
+    def get(self):
+    
+        try:
+            datas = argumentos_pesquisa_orden.parse_args()
+            data_ordenada = datetime.strptime(datas['data_lancamento'], '%Y-%m-%d %H:%M:%S')
+            detalhes_missao=Missions.all_misson(self,data_ordenada)
+            if detalhes_missao:
+
        
-       
+                # Retorna os detalhes das missões em formato JSON
+                return jsonify(detalhes_missao)
+            else:
+                return jsonify({'Message': "Missao nao encontrada"}), 404
+
+        except Exception as e:
+            return jsonify({"error": str(e)})
+
 
 
             
