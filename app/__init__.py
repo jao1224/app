@@ -1,12 +1,10 @@
 from flask import Flask, render_template
 from flask_sqlalchemy import SQLAlchemy
 from flask_restful import Api
-from flask_cors import CORS # type: ignore
-
-app = Flask(__name__)
-CORS(app)
+from flask_cors import CORS
 
 app= Flask(__name__)
+CORS(app)
 api=Api(app)
 app.config["SQLALCHEMY_DATABASE_URI"] = 'sqlite:///mission.db'
 db= SQLAlchemy(app)
