@@ -11,6 +11,7 @@ document.getElementById('meuFormulario').addEventListener('submit', function(eve
     var status = document.getElementById('status').value;
     
     var dados = {
+      
         nome: nome,
         data_lancamento: data_lancamento,
         destino: destino,
@@ -29,5 +30,30 @@ document.getElementById('meuFormulario').addEventListener('submit', function(eve
             'Content-Type': 'application/json'
         },
         body: JSON.stringify(dados)
+    })
+});
+
+    
+
+
+
+document.getElementById('deletar').addEventListener('submit', function(event){
+    event.preventDefault();
+        
+    var id = document.getElementById('id').value;
+        
+    var dadosdelet = {
+        id: id
+    };
+        
+    console.log(dadosdelet)
+        
+    // realizar requisição AJAX para a API
+    fetch('http://127.0.0.1:9000/Delete',{
+        method:'delete',
+        headers:{
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(dadosdelet)
     })
 });
