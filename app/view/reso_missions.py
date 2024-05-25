@@ -114,7 +114,7 @@ class Mission_Delete(Resource):
         
         
     # Recuperar os detalhes de uma missão específica com base no ID da missão
-class Mission_por_id(Resource):
+class Mission_id(Resource):
     def get(self):
         try:
             datas = argumentos_pesquisa.parse_args()
@@ -128,7 +128,7 @@ class Mission_por_id(Resource):
         
         
 # Pesquisar missões por intervalo de datas
-class Missions_Por_intervalo(Resource):
+class Missions_interval(Resource):
     def get(self):
     
         try:
@@ -154,8 +154,6 @@ class Missions_Por_ordem_decrescente(Resource):
             data_ordenada = datetime.strptime(datas['data_lancamento'], '%Y-%m-%d %H:%M:%S')
             detalhes_missao=Missions.all_misson(self,data_ordenada)
             if detalhes_missao:
-
-       
                 # Retorna os detalhes das missões em formato JSON
                 return jsonify(detalhes_missao)
             else:
