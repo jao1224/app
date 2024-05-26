@@ -63,20 +63,18 @@ document.getElementById('searchForm').addEventListener('submit', function(event)
     event.preventDefault();
     
     var id = document.getElementById('id').value;
-         
-    var dadospesq = {
-        id: id
-    };
-    fetch('http://127.0.0.1:9000/id', {
+    alert('Valor do id: ' + id); // Mostra um popup com o valor do id
+    
+    fetch('http://127.0.0.1:9000/' + id, {
         method: 'GET',
+        mode:'no-cors',
         headers: {
             'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({id: id})
-    })
+        }})
     .then(response => response.json())
     .then(data => {
-        document.getElementById('result').textContent = JSON.stringify(data);
+        var resposta = JSON.stringify(data);
+        alert(resposta); // Mostra um popup com o resultado
     })
     .catch(error => {
         console.error('Error:', error);
