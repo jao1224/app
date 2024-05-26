@@ -145,7 +145,7 @@ class Missions_interval(Resource):
         
         
 #todas as missoes em ordem decrescente 
-class Missions_Por_ordem_decrescente(Resource):
+class Missions_decrescente(Resource):
     def get(self):
     
         try:
