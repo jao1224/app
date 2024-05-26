@@ -1,3 +1,4 @@
+//criar
 document.getElementById('meuFormulario').addEventListener('submit', function(event){
     event.preventDefault();
     var nome = document.getElementById('nome').value;
@@ -35,8 +36,7 @@ document.getElementById('meuFormulario').addEventListener('submit', function(eve
 
     
 
-
-
+//deletar 
 document.getElementById('deletar').addEventListener('submit', function(event){
     event.preventDefault();
         
@@ -58,7 +58,7 @@ document.getElementById('deletar').addEventListener('submit', function(event){
     })
 });
 
-
+// pesquisa por id 
 document.getElementById('searchForm').addEventListener('submit', function(event){
     event.preventDefault();
     
@@ -73,8 +73,16 @@ document.getElementById('searchForm').addEventListener('submit', function(event)
         }})
     .then(response => response.json())
     .then(data => {
+        console.log(data); 
         var resposta = JSON.stringify(data);
-        alert(resposta); // Mostra um popup com o resultado
+        alert('Informações da Missão: ' + resposta); // Mostra um popup com o resultado
+        console.log('ID: ' + data[0].id);
+        console.log('Nome: ' + data[0].nome);
+        console.log('Status: ' + data[0].status);
+        console.log('Destino: ' + data[0].destino);
+        console.log('Estado: ' + data[0].estado);
+        console.log('Tripulação: ' + data[0].tripulacao);
+        console.log('Data de Lançamento: ' + data[0].data_lancamento);
     })
     .catch(error => {
         console.error('Error:', error);
