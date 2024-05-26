@@ -57,3 +57,28 @@ document.getElementById('deletar').addEventListener('submit', function(event){
         body: JSON.stringify(dadosdelet)
     })
 });
+
+
+document.getElementById('searchForm').addEventListener('submit', function(event){
+    event.preventDefault();
+    
+    var id = document.getElementById('id').value;
+         
+    var dadospesq = {
+        id: id
+    };
+    fetch('http://127.0.0.1:9000/id', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({id: id})
+    })
+    .then(response => response.json())
+    .then(data => {
+        document.getElementById('result').textContent = JSON.stringify(data);
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+});
