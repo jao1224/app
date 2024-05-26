@@ -121,7 +121,7 @@ class Mission_id(Resource):
             missao=Missions.get_mission_by_id(self,datas['id'])
             if missao:
                 return missao
-            return{"message": 'Missão não encontrada!'},200
+            return{"message": 'Missão não encontrada !'},200
         except Exception as e:
             return jsonify({'status': 500, 'msg':f'{e}'}),500
             
@@ -139,8 +139,7 @@ class Missions_interval(Resource):
             if missao:
                 # Certifique-se de que 'missao' seja serializável em JSON
                 return jsonify(missao)
-            else:
-                return jsonify({'Message': "Missao nao encontrada"}), 404
+            return jsonify({'Message': "Missao nao encontrada"}), 200
         except Exception as e:
             return jsonify({"error": str(e)})
         
@@ -151,7 +150,7 @@ class Missions_Por_ordem_decrescente(Resource):
     
         try:
             datas = argumentos_pesquisa_orden.parse_args()
-            data_ordenada = datetime.strptime(datas['data_lancamento'], '%Y-%m-%d %H:%M:%S')
+            data_ordenada = datetime.strptime(datas['data_lancamento'], '%Y-%m-%d')
             detalhes_missao=Missions.all_misson(self,data_ordenada)
             if detalhes_missao:
 
