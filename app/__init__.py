@@ -6,7 +6,7 @@ from flask_cors import CORS
 app= Flask(__name__)
 CORS(app)
 api=Api(app)
-app.config["SQLALCHEMY_DATABASE_URI"] = 'sqlite:///mission.db'
+app.config["SQLALCHEMY_DATABASE_URI"] = 'sqlite:///missoes.db'
 db= SQLAlchemy(app)
 from app.models.missoes import Missions
 with app.app_context():
