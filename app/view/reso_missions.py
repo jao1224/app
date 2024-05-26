@@ -162,6 +162,4 @@ class Missions_Por_ordem_decrescente(Resource):
         except Exception as e:
             return jsonify({"error": str(e)})
 
-
-
-            
+   
